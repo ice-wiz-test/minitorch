@@ -2,19 +2,30 @@ import random
 
 import chalk as ch
 from chalk import (
+    P2,
+    V2,
+    ArrowOpts,
+    Path,
     Trail,
+    circle,
+    concat,
     empty,
+    hstrut,
     make_path,
-    path,
     place_on_path,
     rectangle,
+    text,
     unit_x,
     unit_y,
+    vstrut,
 )
 from colour import Color
 from drawing import aqua, black, lightblue, lightred
 
 import minitorch
+
+white = Color("white")
+blue = Color("blue")
 
 random.seed(10)
 
@@ -32,6 +43,18 @@ s.y = [1 if base_model(*s.X[i]) > 0 else -1 for i in range(len(s.y))]
 d = spl
 s1_hard = [d.X[i] for i in range(len(d.y)) if d.y[i] == 0]
 s2_hard = [d.X[i] for i in range(len(d.y)) if d.y[i] == 1]
+
+
+class Linear:
+    "Linear classifier for the primer figures: w1 * x1 + w2 * x2 + b"
+
+    def __init__(self, w1, w2, b):
+        self.w1 = w1
+        self.w2 = w2
+        self.b = b
+
+    def forward(self, x1, x2):
+        return self.w1 * x1 + self.w2 * x2 + self.b
 
 
 def show(model):
